@@ -1,30 +1,24 @@
-﻿using Segundo_Parcial.Entidades;
+﻿using Microsoft.EntityFrameworkCore;
+using Segundo_Parcial.DAL;
+using Segundo_Parcial.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Segundo_Parcial.BLL
 {
     class TareaBLL
-    {
-        /*public static bool Guardar(Tarea tarea)
+    { 
+        public static Tarea Buscar(int id)
         {
-            if (!Existe(tarea.TareaId))
-                return Insertar(tarea);
-            else
-                return Modificar(tarea);
-        }
-
-        private static bool Insertar(Tarea tarea)
-        {
-            bool paso = false;
             Contexto contexto = new Contexto();
+            Tarea tarea;
             try
             {
-                contexto.Roles.Add(tarea);
-                paso = contexto.SaveChanges() > 0;
+                tarea = contexto.Tarea.Find(id);
             }
             catch (Exception)
             {
@@ -35,127 +29,16 @@ namespace Segundo_Parcial.BLL
                 contexto.Dispose();
             }
 
-            return paso;
+            return tarea;
         }
 
-        public static bool Modificar(Tarea tarea)
+        public static List<Tarea> GetList(Expression<Func<Tarea, bool>> criterio)
         {
-            bool paso = false;
+            List<Tarea> lista = new List<Tarea>();
             Contexto contexto = new Contexto();
             try
             {
-                contexto.Database.ExecuteSqlRaw($"Delete FROM RolesDetalle Where RolID={roles.RolID}");
-                foreach (var item in tarea.TipoTarea)
-                {
-                    contexto.Entry(item).State = EntityState.Added;
-                }
-                contexto.Entry(roles).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-
-            return paso;
-        }
-
-        public static bool Eliminar(int id)
-        {
-            bool paso = false;
-            Contexto contexto = new Contexto();
-            try
-            {
-                var roles = contexto.Roles.Find(id);
-                if (roles != null)
-                {
-                    contexto.Entry(roles).State = EntityState.Deleted;
-                    paso = contexto.SaveChanges() > 0;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-
-            return paso;
-        }
-
-        public static Roles Buscar(int id)
-        {
-            Contexto contexto = new Contexto();
-            Roles roles;
-            try
-            {
-                roles = contexto.Roles.Include(e => e.Detalle).Where(p => p.RolID == id).SingleOrDefault();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-
-            return roles;
-        }
-
-        public static bool Existe(int id)
-        {
-            Contexto contexto = new Contexto();
-            bool encontrado = false;
-            try
-            {
-                encontrado = contexto.Roles.Any(e => e.RolID == id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-
-            return encontrado;
-        }
-
-        public static bool ExisteDescripcion(string descrip)
-        {
-            Contexto contexto = new Contexto();
-            bool encontrado = false;
-            try
-            {
-                encontrado = contexto.Roles.Any(e => e.DescripcionRol == descrip);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-
-            return encontrado;
-        }
-
-        public static List<Roles> GetList(Expression<Func<Roles, bool>> criterio)
-        {
-            List<Roles> lista = new List<Roles>();
-            Contexto contexto = new Contexto();
-            try
-            {
-                lista = contexto.Roles.Where(criterio).ToList();
+                lista = contexto.Tarea.Where(criterio).ToList();
             }
             catch (Exception)
             {
@@ -169,13 +52,13 @@ namespace Segundo_Parcial.BLL
             return lista;
         }
 
-        public static List<Roles> GetRoles()
+        public static List<Tarea> GetTarea()
         {
-            List<Roles> lista = new List<Roles>();
+            List<Tarea> lista = new List<Tarea>();
             Contexto contexto = new Contexto();
             try
             {
-                lista = contexto.Roles.ToList();
+                lista = contexto.Tarea.ToList();
             }
             catch (Exception)
             {
@@ -187,6 +70,6 @@ namespace Segundo_Parcial.BLL
             }
 
             return lista;
-        }*/
+        }
     }
 }
