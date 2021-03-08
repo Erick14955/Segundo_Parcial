@@ -14,7 +14,7 @@ namespace Segundo_Parcial.BLL
     {
         public static bool Guardar(Proyecto proyecto)
         {
-            if (!Existe(proyecto.ProyectoId))
+            if (!Existe(proyecto.TipoId))
                 return Insertar(proyecto);
             else
                 return Modificar(proyecto);
@@ -47,7 +47,7 @@ namespace Segundo_Parcial.BLL
             Contexto contexto = new Contexto();
             try
             {
-                contexto.Database.ExecuteSqlRaw($"Delete FROM ProyectoDetalle Where ProyectoId={proyecto.ProyectoId}");
+                contexto.Database.ExecuteSqlRaw($"Delete FROM ProyectoDetalle Where TipoId={proyecto.TipoId}");
                 foreach (var item in proyecto.DescripcionProyecto)
                 {
                     contexto.Entry(item).State = EntityState.Added;
@@ -98,7 +98,7 @@ namespace Segundo_Parcial.BLL
             Proyecto proyecto;
             try
             {
-                proyecto = contexto.Proyecto.Include(e => e.DescripcionProyecto).Where(p => p.ProyectoId == id).SingleOrDefault();
+                proyecto = contexto.Proyecto.Include(e => e.DescripcionProyecto).Where(p => p.TipoId == id).SingleOrDefault();
             }
             catch (Exception)
             {
@@ -118,7 +118,7 @@ namespace Segundo_Parcial.BLL
             bool encontrado = false;
             try
             {
-                encontrado = contexto.Proyecto.Any(e => e.ProyectoId == id);
+                encontrado = contexto.Proyecto.Any(e => e.TipoId == id);
             }
             catch (Exception)
             {
